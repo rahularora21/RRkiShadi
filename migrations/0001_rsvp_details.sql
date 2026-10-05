@@ -1,0 +1,2 @@
+ALTER TABLE rsvps ADD COLUMN phone_country TEXT;
+ALTER TABLE rsvps ADD COLUMN extra_bedding INTEGER NOT NULL DEFAULT 0;

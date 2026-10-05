@@ -505,6 +505,13 @@ main { position: relative; z-index: 1; }
 .rsvp-form { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
+.travel-field { border: 0; padding: 0; margin: 0; min-width: 0; }
+.travel-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 640px) { .travel-plans { grid-template-columns: 1fr; } }
+.travel-field legend { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mist); margin-bottom: 10px; }
+.travel-selects { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.field select { width: 100%; min-width: 0; }
+@media (max-width: 480px) { .travel-selects { grid-template-columns: 1fr; } }
 .field label { font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--mist); }
 .field input, .field select, .field textarea {
   font-family: var(--body-font);

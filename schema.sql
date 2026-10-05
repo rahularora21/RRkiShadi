@@ -13,5 +13,7 @@ CREATE TABLE IF NOT EXISTS rsvps (
   departure TEXT,
   dietary TEXT,
   song TEXT,
-  notes TEXT
+  notes TEXT,
+  phone_country TEXT,
+  extra_bedding INTEGER NOT NULL DEFAULT 0
 );

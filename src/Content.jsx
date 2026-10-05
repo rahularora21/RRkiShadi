@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Tilt from './Tilt.jsx'
 import Figures from './Figures.jsx'
+import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
+import { PhoneFields, TravelFields } from './RsvpFields.jsx'
 
 /* ------------------------------------------------------------------
    The five chapters of the invitation (rendered by App.jsx).
@@ -319,6 +321,23 @@ function Rsvp() {
     setStatus('sending')
     const form = new FormData(e.target)
     const payload = Object.fromEntries(form.entries())
+    const phone = parsePhoneNumberFromString(payload.phone, payload.phone_country)
+    if (!phone?.isValid() || phone.country !== payload.phone_country) {
+      const input = e.target.elements.phone
+      input.setCustomValidity('Please enter a valid phone number for the selected country.')
+      input.reportValidity()
+      setStatus('idle')
+      return
+    }
+    payload.phone = phone.number
+    if ((payload.arrival_time && !payload.arrival_date) || (payload.departure_time && !payload.departure_date)) {
+      setStatus('travel-incomplete')
+      return
+    }
+    if (payload.arrival_date && payload.departure_date && `${payload.departure_date}T${payload.departure_time || '23:59'}` < `${payload.arrival_date}T${payload.arrival_time || '00:00'}`) {
+      setStatus('travel-order')
+      return
+    }
     payload.events = 'All celebrations'
     if (!payload.attending) {
       setStatus('incomplete')
@@ -349,10 +368,7 @@ function Rsvp() {
             <label htmlFor="full_name">Full name</label>
             <input id="full_name" name="full_name" type="text" required autoComplete="name" />
           </div>
-          <div className="field">
-            <label htmlFor="phone">Phone</label>
-            <input id="phone" name="phone" type="tel" required autoComplete="tel" />
-          </div>
+          <PhoneFields />
           <Dropdown
             id="attending"
             name="attending"
@@ -365,7 +381,12 @@ function Rsvp() {
           </div>
           <div className="field">
             <label htmlFor="rooms">Rooms needed</label>
-            <input id="rooms" name="rooms" type="text" placeholder="e.g. 1 double" />
+            <input id="rooms" name="rooms" type="number" min="0" max="12" step="1" defaultValue="1" />
+          </div>
+          <div className="field">
+            <label htmlFor="extra_bedding">Extra beds needed</label>
+            <input id="extra_bedding" name="extra_bedding" type="number" min="0" max="12" step="1" defaultValue="0" />
+            <p className="field-hint">Leave at 0 if you don’t need extra bedding.</p>
           </div>
           <Dropdown
             id="travel_mode"
@@ -373,15 +394,9 @@ function Rsvp() {
             label="Travelling by"
             options={['Car', 'Flight', 'Train', 'I need help arranging transport', 'Other']}
           />
-          <div className="field">
-            <label htmlFor="arrival">Arrival</label>
-            <input id="arrival" name="arrival" type="text" placeholder="e.g. 16 Dec, 2:00 PM" aria-describedby="arrival-hint" />
-            <p className="field-hint" id="arrival-hint">Date &amp; time you expect to reach Jaipur. Tentative is fine.</p>
-          </div>
-          <div className="field">
-            <label htmlFor="departure">Departure</label>
-            <input id="departure" name="departure" type="text" placeholder="e.g. 18 Dec, 11:00 AM" aria-describedby="departure-hint" />
-            <p className="field-hint" id="departure-hint">Date &amp; time you expect to leave Jaipur. Tentative is fine.</p>
+          <div className="field full travel-plans">
+            <TravelFields name="arrival" label="Arrival in Jaipur" />
+            <TravelFields name="departure" label="Departure from Jaipur" />
           </div>
           <Dropdown id="dietary" name="dietary" label="Dietary preference" options={['Vegetarian', 'Non-vegetarian']} />
           <div className="field">
@@ -401,6 +416,8 @@ function Rsvp() {
           {status === 'incomplete' && (
             <p className="rsvp-error">Please choose whether you will attend.</p>
           )}
+          {status === 'travel-incomplete' && <p className="rsvp-error" role="alert">Please choose a date alongside your travel time.</p>}
+          {status === 'travel-order' && <p className="rsvp-error" role="alert">Departure must be after arrival. Please check your dates and times.</p>}
         </form>
       )}
     </>
