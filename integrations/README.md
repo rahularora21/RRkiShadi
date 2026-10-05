@@ -5,6 +5,7 @@ RSVPs are stored first in the `rrkishadi-rsvp` Cloudflare D1 database. Google Ap
 ## Activate
 
 1. In D1, apply `migrations/0001_rsvp_details.sql` once to the existing database. `schema.sql` is for fresh databases; `CREATE TABLE IF NOT EXISTS` does not update an existing table.
+   For transport help fields, also apply `migrations/0002_transport_help.sql` once. The first migration was already applied on 5 October 2026; do not rerun it.
 2. Add a strong random **secret** named `ADMIN_KEY` to the production Pages project. Keep it out of GitHub, browser code, and URLs. Publish the updated website after the migration and secret are ready.
 3. Open [the response sheet](https://docs.google.com/spreadsheets/d/1Tgiup2qmOWGGdj_9rPb-X9Suawxfo39ErK1EVyGNXFw/edit) → **Extensions → Apps Script**. Replace the starter code with `rsvp-sheets.gs`.
 4. Under **Project Settings → Script properties**, set `API_URL` to `https://rrkishadi-2z6.pages.dev/api/rsvp` and `ADMIN_KEY` to the same Cloudflare secret. Set the project timezone to **Asia/Kolkata**.
@@ -12,6 +13,8 @@ RSVPs are stored first in the `rrkishadi-rsvp` Cloudflare D1 database. Google Ap
 6. Submit one clearly labelled test RSVP and verify a row appears and an alert reaches `rahul@exsearch.in`. Check Apps Script **Executions** if either fails. Initial setup also imports and sends alerts for any existing responses.
 
 Saved responses survive a Sheets/email failure. Failed emails retry on subsequent runs. A rare interruption immediately after sending email and before marking it sent may produce a duplicate alert. Google daily email quotas apply. Leave response IDs intact; changing or deleting them can cause a missing or duplicate row. The stored `LAST_ID` cursor permits incremental batches of 100 rows.
+
+Travel dates list 14–18 December 2026 with weekdays. Times use 30-minute intervals. Transport help adds pickup origin, optional flight/train number and arrival time, or a required city name. Sheet columns R–U store these fields; the existing email status stays in Q. Existing responses and sync cursor are preserved.
 
 ## Private Excel-compatible CSV
 

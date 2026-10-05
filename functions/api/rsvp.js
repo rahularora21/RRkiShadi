@@ -11,6 +11,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
 const FIELDS = [
   'full_name', 'phone', 'attending', 'events', 'party_size', 'rooms',
   'travel_mode', 'arrival', 'departure', 'dietary', 'song', 'notes', 'phone_country', 'extra_bedding',
+  'transport_origin', 'transport_number', 'transport_arrival_time', 'transport_city',
 ]
 
 export async function onRequestPost({ request, env }) {
@@ -41,16 +42,24 @@ export async function onRequestPost({ request, env }) {
   const travel = {}
   for (const field of ['arrival', 'departure']) {
     const date = body[`${field}_date`] || '', time = body[`${field}_time`] || ''
-    if (date && !/^2026-12-(0[1-9]|[12]\d|3[01])$/.test(date)) return invalid('Invalid travel date')
-    if (time && (!date || !/^([01]\d|2[0-3]):(00|15|30|45)$/.test(time))) return invalid('Invalid travel time')
+    if (date && !/^2026-12-1[4-8]$/.test(date)) return invalid('Invalid travel date')
+    if (time && (!date || !/^([01]\d|2[0-3]):(00|30)$/.test(time))) return invalid('Invalid travel time')
     travel[field] = date ? `${date}${time ? ` ${time}` : ' (time undecided)'} IST` : ''
   }
   if (body.arrival_date && body.departure_date && `${body.departure_date}T${body.departure_time || '23:59'}` < `${body.arrival_date}T${body.arrival_time || '00:00'}`) return invalid('Departure precedes arrival')
 
   const clean = (v, n = 300) => String(v ?? '').trim().slice(0, n)
+  const help = body.travel_mode === 'I need help arranging transport'
+  const origin = help ? clean(body.transport_origin, 40) : ''
+  if (help && !['Airport', 'Train station', 'Another city'].includes(origin)) return invalid('Choose a transport pickup location')
+  const city = origin === 'Another city' ? clean(body.transport_city, 120) : ''
+  if (origin === 'Another city' && !city) return invalid('City name is required')
+  const station = ['Airport', 'Train station'].includes(origin)
+  const pickupTime = station ? clean(body.transport_arrival_time, 5) : ''
+  if (pickupTime && !/^([01]\d|2[0-3]):(00|30)$/.test(pickupTime)) return invalid('Invalid pickup arrival time')
   await env.DB.prepare(
-    `INSERT INTO rsvps (full_name, phone, attending, events, party_size, rooms, travel_mode, arrival, departure, dietary, song, notes, phone_country, extra_bedding)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO rsvps (full_name, phone, attending, events, party_size, rooms, travel_mode, arrival, departure, dietary, song, notes, phone_country, extra_bedding, transport_origin, transport_number, transport_arrival_time, transport_city)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   )
     .bind(
       fullName,
@@ -67,6 +76,10 @@ export async function onRequestPost({ request, env }) {
       clean(body.notes, 1000),
       body.phone_country,
       Number(body.extra_bedding),
+      origin,
+      station ? clean(body.transport_number, 60) : '',
+      pickupTime,
+      city,
     )
     .run()
 

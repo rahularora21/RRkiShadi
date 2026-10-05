@@ -1,6 +1,6 @@
 /* Bound to the private RSVP Google Sheet. Set API_URL and ADMIN_KEY in
  * Project Settings > Script properties, then run setupRsvpSync once. */
-const RSVP_COLUMNS = ['id', 'created_at', 'full_name', 'phone', 'phone_country', 'attending', 'events', 'party_size', 'rooms', 'extra_bedding', 'travel_mode', 'arrival', 'departure', 'dietary', 'song', 'notes', 'email_sent_at'];
+const RSVP_COLUMNS = ['id', 'created_at', 'full_name', 'phone', 'phone_country', 'attending', 'events', 'party_size', 'rooms', 'extra_bedding', 'travel_mode', 'arrival', 'departure', 'dietary', 'song', 'notes', 'email_sent_at', 'transport_origin', 'transport_number', 'transport_arrival_time', 'transport_city'];
 const RSVP_EMAIL = 'rahul@exsearch.in';
 
 function setupRsvpSync() {
@@ -56,7 +56,7 @@ function syncRsvps() {
         if (!row[0] || row[16]) continue;
         if (MailApp.getRemainingDailyQuota() < 1) throw new Error('Email quota exhausted. Alerts will retry later.');
         MailApp.sendEmail({ to: RSVP_EMAIL, subject: 'New wedding RSVP: ' + String(row[2]).replace(/[\r\n]/g, ' '),
-          body: 'A new RSVP has arrived.\n\nName: ' + row[2] + '\nAttendance: ' + row[5] + '\nGuests: ' + row[7] + '\nRooms: ' + row[8] + '\nExtra beds: ' + row[9] + '\nArrival: ' + row[11] + '\nDeparture: ' + row[12] + '\n\nView the private response sheet:\n' + book.getUrl(),
+          body: 'A new RSVP has arrived.\n\nName: ' + row[2] + '\nAttendance: ' + row[5] + '\nGuests: ' + row[7] + '\nRooms: ' + row[8] + '\nExtra beds: ' + row[9] + '\nArrival: ' + row[11] + '\nDeparture: ' + row[12] + '\nTransport pickup: ' + row[17] + '\nFlight/train number: ' + row[18] + '\nPickup arrival time (IST): ' + row[19] + '\nCity: ' + row[20] + '\n\nView the private response sheet:\n' + book.getUrl(),
           name: 'Ruchi & Rahul RSVP' });
         sheet.getRange(i + 2, 17).setValue(new Date()).setNumberFormat('dd mmm yyyy hh:mm');
         SpreadsheetApp.flush();

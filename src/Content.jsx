@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Tilt from './Tilt.jsx'
 import Figures from './Figures.jsx'
 import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
-import { PhoneFields, TravelFields } from './RsvpFields.jsx'
+import { PhoneFields, TravelFields, TransportHelpFields } from './RsvpFields.jsx'
 
 /* ------------------------------------------------------------------
    The five chapters of the invitation (rendered by App.jsx).
@@ -265,7 +265,7 @@ function Explore() {
 }
 
 /** Custom dropdown — reliable and styled inside the 3D-transformed panel. */
-function Dropdown({ id, name, label, options, placeholder = 'Choose…' }) {
+function Dropdown({ id, name, label, options, placeholder = 'Choose…', onChange }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const ref = useRef(null)
@@ -301,6 +301,7 @@ function Dropdown({ id, name, label, options, placeholder = 'Choose…' }) {
               className={o === value ? 'sel' : ''}
               onClick={() => {
                 setValue(o)
+                onChange?.(o)
                 setOpen(false)
               }}
             >
@@ -315,6 +316,7 @@ function Dropdown({ id, name, label, options, placeholder = 'Choose…' }) {
 
 function Rsvp() {
   const [status, setStatus] = useState('idle')
+  const [travelMode, setTravelMode] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -392,8 +394,10 @@ function Rsvp() {
             id="travel_mode"
             name="travel_mode"
             label="Travelling by"
+            onChange={setTravelMode}
             options={['Car', 'Flight', 'Train', 'I need help arranging transport', 'Other']}
           />
+          {travelMode === 'I need help arranging transport' && <TransportHelpFields />}
           <div className="field full travel-plans">
             <TravelFields name="arrival" label="Arrival in Jaipur" />
             <TravelFields name="departure" label="Departure from Jaipur" />

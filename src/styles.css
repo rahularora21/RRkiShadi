@@ -507,6 +507,7 @@ main { position: relative; z-index: 1; }
 .field.full { grid-column: 1 / -1; }
 .travel-field { border: 0; padding: 0; margin: 0; min-width: 0; }
 .travel-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.transport-help { gap: 16px; padding: 18px; border: 1px solid var(--gold); }
 @media (max-width: 640px) { .travel-plans { grid-template-columns: 1fr; } }
 .travel-field legend { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mist); margin-bottom: 10px; }
 .travel-selects { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }

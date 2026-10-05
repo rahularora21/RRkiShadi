@@ -15,5 +15,9 @@ CREATE TABLE IF NOT EXISTS rsvps (
   song TEXT,
   notes TEXT,
   phone_country TEXT,
-  extra_bedding INTEGER NOT NULL DEFAULT 0
+  extra_bedding INTEGER NOT NULL DEFAULT 0,
+  transport_origin TEXT,
+  transport_number TEXT,
+  transport_arrival_time TEXT,
+  transport_city TEXT
 );
