@@ -503,6 +503,10 @@ main { position: relative; z-index: 1; }
 
 /* ---------- rsvp ---------- */
 .rsvp-form { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rsvp-travel { grid-column: 1 / -1; border: 1px solid var(--gold); padding: 16px; }
+.rsvp-travel summary { cursor: pointer; color: var(--gold); font-family: 'Jost', sans-serif; font-size: 16px; }
+.rsvp-travel-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+@media (max-width: 600px) { .rsvp-travel-fields { grid-template-columns: 1fr; } }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
 .travel-field { border: 0; padding: 0; margin: 0; min-width: 0; }

@@ -34,6 +34,9 @@ export async function onRequestPost({ request, env }) {
   const invalid = error => Response.json({ ok: false, error }, { status: 400 })
   if (!parsedPhone?.isValid() || parsedPhone.country !== body.phone_country) return invalid('Invalid phone number for country')
   if (!['Joyfully accept', 'Regretfully decline'].includes(body.attending)) return invalid('Choose attendance')
+  if (body.attending === 'Regretfully decline') {
+    body = { ...body, rooms: 0, extra_bedding: 0, events: '', travel_mode: '', arrival_date: '', arrival_time: '', departure_date: '', departure_time: '' }
+  }
   const counts = [['party_size', 1, 12], ['rooms', 0, 12], ['extra_bedding', 0, 12]]
   for (const [field, min, max] of counts) {
     const value = Number(body[field])

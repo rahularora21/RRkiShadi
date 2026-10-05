@@ -317,12 +317,16 @@ function Dropdown({ id, name, label, options, placeholder = 'Choose…', onChang
 function Rsvp() {
   const [status, setStatus] = useState('idle')
   const [travelMode, setTravelMode] = useState('')
+  const [attending, setAttending] = useState('')
+  const [rooms, setRooms] = useState(1)
 
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus('sending')
     const form = new FormData(e.target)
     const payload = Object.fromEntries(form.entries())
+    payload.rooms = attending === 'Joyfully accept' ? rooms : 0
+    payload.extra_bedding = attending === 'Joyfully accept' && Number(rooms) > 0 ? Number(payload.extra_bedding || 0) : 0
     const phone = parsePhoneNumberFromString(payload.phone, payload.phone_country)
     if (!phone?.isValid() || phone.country !== payload.phone_country) {
       const input = e.target.elements.phone
@@ -340,7 +344,7 @@ function Rsvp() {
       setStatus('travel-order')
       return
     }
-    payload.events = 'All celebrations'
+    payload.events = attending === 'Joyfully accept' ? 'All celebrations' : ''
     if (!payload.attending) {
       setStatus('incomplete')
       return
@@ -363,7 +367,7 @@ function Rsvp() {
       <h2 className="section-title">Respond by 1 November 2026</h2>
       <p className="lede">Tell us you are coming — and everything we need to host you well.</p>
       {status === 'done' ? (
-        <p className="rsvp-done">Thank you — we can’t wait to celebrate with you.</p>
+        <p className="rsvp-done">{attending === 'Joyfully accept' ? 'Thank you — we can’t wait to celebrate with you.' : 'Thank you for letting us know — you’ll be missed.'}</p>
       ) : (
         <form className="rsvp-form" onSubmit={handleSubmit}>
           <div className="field">
@@ -375,21 +379,26 @@ function Rsvp() {
             id="attending"
             name="attending"
             label="Will you attend?"
+            onChange={value => { setAttending(value); setTravelMode(''); setRooms(1) }}
             options={['Joyfully accept', 'Regretfully decline']}
           />
           <div className="field">
             <label htmlFor="party_size">Guests in your party</label>
             <input id="party_size" name="party_size" type="number" min="1" max="12" defaultValue="1" />
           </div>
+          {attending === 'Joyfully accept' && <>
           <div className="field">
             <label htmlFor="rooms">Rooms needed</label>
-            <input id="rooms" name="rooms" type="number" min="0" max="12" step="1" defaultValue="1" />
+            <input id="rooms" name="rooms" type="number" min="0" max="12" step="1" required value={rooms} onChange={e => setRooms(e.target.value)} />
           </div>
-          <div className="field">
+          {Number(rooms) > 0 && <div className="field">
             <label htmlFor="extra_bedding">Extra beds needed</label>
             <input id="extra_bedding" name="extra_bedding" type="number" min="0" max="12" step="1" defaultValue="0" />
             <p className="field-hint">Leave at 0 if you don’t need extra bedding.</p>
-          </div>
+          </div>}
+          <details className="rsvp-travel full" onInvalid={e => { e.currentTarget.open = true }}>
+            <summary>Add travel details (optional)</summary>
+            <div className="rsvp-travel-fields">
           <Dropdown
             id="travel_mode"
             name="travel_mode"
@@ -402,13 +411,11 @@ function Rsvp() {
             <TravelFields name="arrival" label="Arrival in Jaipur" />
             <TravelFields name="departure" label="Departure from Jaipur" />
           </div>
-          <Dropdown id="dietary" name="dietary" label="Dietary preference" options={['Vegetarian', 'Non-vegetarian']} />
-          <div className="field">
-            <label htmlFor="song">A song that gets you dancing</label>
-            <input id="song" name="song" type="text" placeholder="Optional" />
-          </div>
+            </div>
+          </details>
+          </>}
           <div className="field full">
-            <label htmlFor="notes">Anything else we should know?</label>
+            <label htmlFor="notes">Notes (optional)</label>
             <textarea id="notes" name="notes" rows="2" />
           </div>
           <button className="btn" type="submit" disabled={status === 'sending'}>
