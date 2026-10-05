@@ -50,32 +50,55 @@ export const LOOKS = {
 }
 
 function Celebrations() {
-  const rows = [
-    ['16', 'Dec · Wed', 'Cocktail Dinner', '7:00 PM onwards · Stardom Resort, Jaipur', 'Elegant cocktail · Indo-western'],
-    ['17', 'Dec · Thu', 'Sundowner Wedding', '5:00 PM onwards · Stardom Resort, Jaipur', 'Indian festive attire'],
-    ['17', 'Dec · Night', 'Pyjama Party', 'After the pheras · till the sun comes up', 'Pyjamas, or whatever you wore to the wedding'],
+  const days = [
+    {
+      date: '2026-12-16',
+      label: 'Day 1 · 16 December',
+      events: [
+        ['By 12:00 noon', 'Arrival & Check-in', 'Settle in at Stardom Resort, Jaipur'],
+        ['2:00 PM', 'Lunch', 'Join us for a hosted lunch'],
+        ['7:00 PM onwards', 'Cocktail Dinner', 'Elegant cocktail · Indo-western'],
+        ['Till sunrise', 'Party the Night Away', 'Keep the celebrations going till the sun comes up'],
+      ],
+    },
+    {
+      date: '2026-12-17',
+      label: 'Day 2 · 17 December',
+      events: [
+        ['8:00 AM onwards', 'Breakfast', 'Ease into the day over breakfast'],
+        ['Around 2:00 PM', 'Lunch', 'A hosted lunch before the celebrations'],
+        ['Around 4:00 PM', 'Baraat', 'Indian festive attire'],
+        ['Around 6:00 PM', 'Pheras', 'Join us for the wedding ceremony'],
+        ['9:00 PM onwards', 'Dinner', 'Come together for a celebratory dinner'],
+        ['After the pheras', 'Pyjama Party', 'Till the sun comes up · Pyjamas, or whatever you wore to the wedding'],
+      ],
+    },
   ]
   return (
     <>
-      <p className="kicker">the celebrations</p>
-      <h2 className="section-title">Two Days · Three Parties</h2>
+      <h2 className="kicker celebrations-title">the celebrations</h2>
+      <p className="section-title celebrations-subtitle">Two Days · Three Parties</p>
       <p className="lede">
         A cocktail evening, a sundowner wedding — and once the pheras are done, a pyjama party that
         carries on until the sun is up again.
       </p>
-      <div className="event-list">
-        {rows.map(([day, mon, name, time, attire], i) => (
-          <div className="event-row" key={name + i}>
-            <div className="when">
-              <b>{day}</b>
-              {mon}
+      <p className="programme-venue">Your day-wise programme · Stardom Resort, Jaipur</p>
+      <div className="programme">
+        {days.map(({ date, label, events }) => (
+          <section className="programme-day" key={date} aria-labelledby={date}>
+            <h3 className="programme-date" id={date}><time dateTime={date}>{label}</time></h3>
+            <div className="event-list">
+              {events.map(([time, name, attire]) => (
+                <div className="event-row" key={name}>
+                  <p className="when">{time}</p>
+                  <div>
+                    <h4>{name}</h4>
+                    <p className="attire">{attire}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div>
-              <h3>{name}</h3>
-              <p className="time">{time}</p>
-              <p className="attire">{attire}</p>
-            </div>
-          </div>
+          </section>
         ))}
       </div>
     </>
@@ -84,7 +107,7 @@ function Celebrations() {
 
 function Stay() {
   const cards = [
-    ['Check-in · out', 'Arrive Wednesday 16 Dec from noon. Depart Friday 18 Dec by noon. All meals hosted throughout.'],
+    ['Check-in · out', 'Check in Wednesday 16 Dec by noon. Depart Friday 18 Dec by noon. Your stay and all meals are hosted throughout.'],
     ['From Delhi', 'About 3½–5 hours by road via the Delhi–Mumbai Expressway. Complimentary parking at the resort.'],
     ['Flying in', 'Roughly 30 minutes from Jaipur International Airport. Share arrival details in the RSVP and we will help you plan.'],
   ]
@@ -93,6 +116,11 @@ function Stay() {
       <p className="kicker">your stay &amp; getting there</p>
       <h2 className="section-title">Room to Be Together</h2>
       <p className="lede">A calm resort off Ajmer Road — open lawns, a glittering pool and room to simply be together.</p>
+      <p className="hosted-note">
+        <strong>Your stay &amp; all meals are on us.</strong>
+        Accommodation and all meals are hosted by our families, from check-in on 16 December
+        to check-out on 18 December.
+      </p>
       <div className="venue-address">
         <div>
           <h4>{VENUE.name}</h4>
@@ -215,7 +243,7 @@ function Explore() {
   return (
     <>
       <p className="kicker">explore jaipur</p>
-      <h2 className="section-title">The Pink City Waits</h2>
+      <h2 className="section-title">The Pink City Awaits</h2>
       <p className="lede">All within an hour of the resort — tap one to walk around it on the map.</p>
       <div className="explore-grid">
         {spots.map((s) => (
@@ -347,11 +375,13 @@ function Rsvp() {
           />
           <div className="field">
             <label htmlFor="arrival">Arrival</label>
-            <input id="arrival" name="arrival" type="text" placeholder="16 Dec, 2 PM" />
+            <input id="arrival" name="arrival" type="text" placeholder="e.g. 16 Dec, 2:00 PM" aria-describedby="arrival-hint" />
+            <p className="field-hint" id="arrival-hint">Date &amp; time you expect to reach Jaipur. Tentative is fine.</p>
           </div>
           <div className="field">
             <label htmlFor="departure">Departure</label>
-            <input id="departure" name="departure" type="text" placeholder="18 Dec, 11 AM" />
+            <input id="departure" name="departure" type="text" placeholder="e.g. 18 Dec, 11:00 AM" aria-describedby="departure-hint" />
+            <p className="field-hint" id="departure-hint">Date &amp; time you expect to leave Jaipur. Tentative is fine.</p>
           </div>
           <Dropdown id="dietary" name="dietary" label="Dietary preference" options={['Vegetarian', 'Non-vegetarian']} />
           <div className="field">

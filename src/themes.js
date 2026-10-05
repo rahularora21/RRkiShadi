@@ -5,58 +5,12 @@
    entries stay in one colour family (accents are lighter shades of the
    same hue); `flat` entries drop the satin sheen for a matte finish;
    `brand` entries (brandThemes.js) bring their own canvas + accent.
-   To keep only the chosen one later: delete the others from THEMES
-   (and set SHOW_PICKER = false to hide the chooser).
+   The final invitation uses only matte Deep Plum, with the chooser hidden.
 ------------------------------------------------------------------- */
-import { BRAND_THEMES } from './brandThemes.js'
-
-export const SHOW_PICKER = true
+export const SHOW_PICKER = false
 
 export const THEMES = [
-  { id: 'dark-red', name: 'Dark Red', hex: '#6b0f1a' },
-  { id: 'maroon', name: 'Maroon', hex: '#5a0d22' },
-  { id: 'wine', name: 'Wine', hex: '#4a0a2c' },
-  { id: 'rani', name: 'Rani Pink', hex: '#8c1454' },
-  { id: 'burgundy', name: 'Burgundy', hex: '#5c1030' },
-  { id: 'bottle-green', name: 'Bottle Green', hex: '#0f4a34' },
-  { id: 'emerald', name: 'Emerald', hex: '#0b5e3d' },
-  { id: 'teal', name: 'Teal', hex: '#0b4a4f' },
-  { id: 'royal-purple', name: 'Royal Purple', hex: '#3b1466' },
-  { id: 'aubergine', name: 'Aubergine', hex: '#3a0f3f' },
-  { id: 'violet', name: 'Violet', hex: '#4b2a8a' },
-  { id: 'midnight', name: 'Midnight Blue', hex: '#10163f' },
-  { id: 'royal-blue', name: 'Royal Blue', hex: '#14357a' },
-  { id: 'navy', name: 'Navy', hex: '#0b1f4a' },
-  { id: 'peacock', name: 'Peacock', hex: '#0d3b5c' },
-  { id: 'rust', name: 'Rust', hex: '#8a3a14' },
-  { id: 'terracotta', name: 'Terracotta', hex: '#9a4a2a' },
-  { id: 'chocolate', name: 'Chocolate', hex: '#4a2a1a' },
-  { id: 'plum', name: 'Plum', hex: '#5a1d4a' },
-  { id: 'charcoal', name: 'Charcoal', hex: '#1c1c22' },
-  // single tone — no gold
-  { id: 'onyx', name: 'Onyx', hex: '#141418', mono: true },
-  { id: 'oxblood', name: 'Oxblood', hex: '#4a0f14', mono: true },
-  { id: 'forest', name: 'Forest', hex: '#123524', mono: true },
-  { id: 'slate', name: 'Slate Blue', hex: '#263a5a', mono: true },
-  { id: 'indigo', name: 'Indigo', hex: '#2a2560', mono: true },
-  { id: 'espresso', name: 'Espresso', hex: '#3b2418', mono: true },
-  { id: 'olive', name: 'Olive', hex: '#3a3f1a', mono: true },
-  { id: 'graphite', name: 'Graphite', hex: '#2a2a30', mono: true },
-  { id: 'mulberry', name: 'Mulberry', hex: '#4a1a3a', mono: true },
-  { id: 'steel', name: 'Steel Blue', hex: '#2f4a6a', mono: true },
-  // matte — no satin sheen, gold accents
-  { id: 'matte-black', name: 'Matte Black', hex: '#121214', flat: true },
-  { id: 'matte-maroon', name: 'Matte Maroon', hex: '#5b1a24', flat: true },
   { id: 'deep-plum', name: 'Deep Plum', hex: '#3f1f3b', flat: true },
-  { id: 'ink', name: 'Ink Blue', hex: '#1a2440', flat: true },
-  { id: 'pine', name: 'Pine', hex: '#1f3a2a', flat: true },
-  { id: 'clay', name: 'Clay', hex: '#8b4a3a', flat: true },
-  { id: 'mocha', name: 'Mocha', hex: '#4b3a30', flat: true },
-  { id: 'slate-grey', name: 'Slate Grey', hex: '#3a4048', flat: true },
-  { id: 'dusty-rose', name: 'Dusty Rose', hex: '#8a4a5a', flat: true },
-  { id: 'sage', name: 'Sage', hex: '#4d6a55', flat: true },
-  // brand palettes from awesome-design-md (colour inspiration only) — matte, brand accent instead of gold
-  ...BRAND_THEMES,
 ]
 
 /** Human label for a colourway's finish/tone, used by the chooser. */

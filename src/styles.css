@@ -5,33 +5,33 @@
    top and the chapters as glass panels down the page. Regal Roman caps
    (Cinzel), a whisper of script (Great Vibes), geometric body (Jost).
 
-   COLOUR: the satin colourway is chosen from src/themes.js and applied
+   COLOUR: the Deep Plum colourway is defined in src/themes.js and applied
    as inline custom properties on <html> (paletteFor()), for both night
    and day. The :root values below are only the pre-JS fallback
-   (Dark Red + gold) so the first paint isn't blank.
+   (Deep Plum + gold) so the first paint matches the invitation.
    ================================================================== */
 :root {
-  --bg: #5c0d17;
-  --silk-1: #7f1421;
-  --silk-2: #3f0910;
-  --silk-3: #7a1a2e;
-  --silk-glow: rgba(92, 13, 23, 0.92);
+  --bg: #2b1528;
+  --silk-1: #5e2e58;
+  --silk-2: #1d0e1b;
+  --silk-3: #512749;
+  --silk-glow: rgba(43, 21, 40, 0.92);
   --gold: #d4af37;
   --gold-2: #f0d98c;
   --gold-dim: rgba(212, 175, 55, 0.35);
-  --rani: #ffc2c8;
+  --rani: #efbddf;
   --cream: #f4ead8;
   --cream-soft: #d6cdb9;
-  --mist: #c0a8ab;
-  --tint: rgba(84, 12, 21, 0.66);
-  --tint-strong: rgba(66, 9, 17, 0.86);
-  --accent: #e08a95;
-  --input-bg: rgba(110, 18, 30, 0.72);
+  --mist: #bdacbb;
+  --tint: rgba(49, 24, 46, 0.66);
+  --tint-strong: rgba(35, 17, 33, 0.86);
+  --accent: #ce81c4;
+  --input-bg: rgba(70, 35, 66, 0.72);
   --btn-fg: #0a0d16;
-  --option-bg: #5a0c16;
-  --footer-fade: rgba(66, 9, 17, 0.96);
+  --option-bg: #381b34;
+  --footer-fade: rgba(35, 17, 33, 0.96);
   --kinara: clamp(16px, 2.6vw, 30px);
-  --picker-h: 64px; /* room kept under the page for the look pill */
+  --picker-h: 0px;
 
   --display: "Cinzel", "Trajan Pro", serif;
   --script: "Great Vibes", cursive;
@@ -335,6 +335,15 @@ main { position: relative; z-index: 1; }
 }
 .lede { color: var(--mist); max-width: 54ch; }
 
+#celebrations .celebrations-title {
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 400;
+  line-height: 1.2;
+  padding-right: clamp(72px, 10vw, 140px);
+  margin-bottom: 12px;
+}
+#celebrations .celebrations-subtitle { font-size: clamp(22px, 3vw, 30px); }
+
 /* scroll reveal */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
 .reveal.visible { opacity: 1; transform: none; }
@@ -362,9 +371,32 @@ main { position: relative; z-index: 1; }
   text-transform: uppercase;
 }
 .event-row .when b { display: block; font-size: 30px; font-weight: 600; color: var(--cream); }
-.event-row h3 { font-family: var(--display); font-weight: 500; font-size: 21px; letter-spacing: 2px; text-transform: uppercase; color: var(--cream); }
+.event-row h4 { font-family: var(--display); font-weight: 500; font-size: 21px; letter-spacing: 2px; text-transform: uppercase; color: var(--cream); }
 .event-row .time { color: var(--mist); font-size: 15px; margin-top: 3px; }
 .event-row .attire { color: var(--accent); font-size: 14px; margin-top: 8px; font-style: italic; transition: color 0.8s ease; }
+
+.programme-venue { margin-top: 28px; font-size: 15px; color: var(--cream-soft); }
+.programme { display: grid; gap: 28px; margin-top: 20px; }
+.programme-date {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--gold-2);
+}
+.programme .event-list { margin-top: 14px; }
+.programme .event-row { grid-template-columns: 120px minmax(0, 1fr); }
+.programme .when { font-family: var(--body-font); font-size: 15px; letter-spacing: 0; text-transform: none; }
+
+.hosted-note {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-left: 2px solid var(--gold);
+  background: color-mix(in srgb, var(--tint) 60%, transparent);
+  color: var(--cream-soft);
+  font-size: 16px;
+}
+.hosted-note strong { display: block; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
 
 .venue-strip { display: flex; gap: 10px; margin-top: 26px; }
 .venue-strip img {
@@ -414,9 +446,11 @@ main { position: relative; z-index: 1; }
 .swatch span { display: block; margin-top: 8px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mist); }
 .dress-note {
   margin-top: 24px;
-  font-family: var(--script);
-  font-size: clamp(24px, 3vw, 30px);
-  line-height: 1.4;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(21px, 2.4vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.65;
   color: var(--cream);
 }
 .dress-sub { margin-top: 4px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); transition: color 0.8s ease; }
@@ -484,6 +518,8 @@ main { position: relative; z-index: 1; }
 }
 .field select option { background: var(--option-bg, #101528); }
 .field input::placeholder, .field textarea::placeholder { color: var(--mist); opacity: 0.75; }
+.field #arrival::placeholder, .field #departure::placeholder { color: var(--cream-soft); opacity: 1; }
+.field-hint { font-size: 13px; line-height: 1.5; color: var(--cream-soft); }
 .field input:focus, .field select:focus, .field textarea:focus {
   outline: none;
   border-color: var(--accent);
@@ -793,7 +829,7 @@ footer {
 :root[data-style="brand"] .dress-note { font-size: 19px; line-height: 1.5; color: var(--cream); }
 :root[data-style="brand"] footer .f-script { font-size: 17px; color: var(--mist); }
 :root[data-style="brand"] .rsvp-done { font-size: 22px; font-weight: 600; }
-:root[data-style="brand"] .event-row h3,
+:root[data-style="brand"] .event-row h4,
 :root[data-style="brand"] .info-card h4,
 :root[data-style="brand"] .ex-overlay h4,
 :root[data-style="brand"] footer .f-names {
@@ -803,6 +839,17 @@ footer {
 }
 :root[data-style="brand"] .event-row .when { font-family: var(--body-font); text-transform: none; letter-spacing: 0; font-weight: 500; }
 :root[data-style="brand"] .event-row .when b { font-family: var(--display); font-weight: var(--names-weight); }
+:root[data-style="brand"] #celebrations .celebrations-title {
+  font-family: var(--display);
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: var(--names-weight);
+  letter-spacing: var(--names-tracking);
+  text-transform: var(--names-transform);
+}
+:root[data-style="brand"] .programme-date {
+  font-weight: var(--names-weight);
+  letter-spacing: var(--names-tracking);
+}
 :root[data-style="brand"] .hero-meta,
 :root[data-style="brand"] footer .tag,
 :root[data-style="brand"] .field label,
@@ -1098,9 +1145,17 @@ footer {
   .lede { max-width: 64ch; }
   .event-list { margin-top: 34px; }
   .event-row { grid-template-columns: 110px 1fr; padding: 28px 10px; }
+  .programme { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
   .venue-strip img { aspect-ratio: 16 / 10; }
   .info-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .explore-grid { grid-template-columns: repeat(4, 1fr); }
+  .explore-card.photo { aspect-ratio: auto; display: flex; flex-direction: column; background: var(--tint-strong); }
+  .explore-card.photo img { height: auto; aspect-ratio: 4 / 3; }
+  .ex-overlay { position: relative; inset: auto; flex: 1; padding: 18px 16px; background: none; }
+  .ex-overlay h4 { color: var(--cream); font-size: 17px; letter-spacing: 1px; }
+  .ex-overlay p { color: var(--cream-soft); font-size: 15px; font-weight: 400; line-height: 1.6; }
+  .ex-walk { margin-top: auto; padding-top: 12px; font-size: 12px; color: var(--gold-2); opacity: 1; }
+  .ex-credit { font-size: 13px; opacity: 1; }
   .rsvp-form { grid-template-columns: repeat(3, 1fr); gap: 18px 20px; }
   .rsvp-form .field.full { grid-column: 1 / -1; }
 }
@@ -1200,4 +1255,22 @@ footer .f-venue a:hover { color: var(--gold-2); border-color: var(--gold); }
 .panel > *:not(.ch-num):not(.stitch) { position: relative; z-index: 1; }
 @media (max-width: 640px) {
   .panel .ch-num { font-size: 64px; top: 10px; right: 14px; opacity: 0.45; }
+}
+
+/* Chapter numbers read as gold accents instead of faint watermarks. */
+.chapter .panel .ch-num,
+.chapter.flip .panel .ch-num {
+  color: color-mix(in srgb, var(--gold) 22%, transparent);
+  -webkit-text-stroke: 1.2px var(--gold);
+  opacity: 1;
+}
+@media (max-width: 640px) {
+  .chapter .panel .ch-num { font-size: 58px; }
+  .chapter .panel > .kicker { padding-top: 44px; }
+  #celebrations .celebrations-title { padding-right: 0; padding-top: 44px; }
+  .programme .event-row { grid-template-columns: 76px minmax(0, 1fr); gap: 14px; padding: 20px 0; }
+  .programme .event-row h4 { font-size: 18px; letter-spacing: 1px; }
+}
+@media (max-width: 380px) {
+  .programme .event-row { grid-template-columns: 1fr; gap: 6px; }
 }

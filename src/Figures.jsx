@@ -128,7 +128,7 @@ function Man({ cx, look }) {
         ))}
         <Legs cx={cx} color="var(--c3)" from={112} shoes="slippers" wide />
         <Face cx={cx} />
-        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} />
+        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
         <SleepMask cx={cx} />
       </g>
     )
@@ -146,7 +146,7 @@ function Man({ cx, look }) {
       <rect x={cx + 7} y="68" width="7" height="3" fill="var(--gold)" />
       <Legs cx={cx} color="var(--c2)" from={112} shoes="dark" />
       <Face cx={cx} />
-      <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} />
+      <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
     </g>
   )
 }
@@ -169,8 +169,8 @@ function Woman({ cx, look }) {
         <path d={`M${cx - 16} 88 L${cx + 16} 88`} stroke="var(--gold)" strokeWidth="1.5" />
         <Legs cx={cx} color="transparent" from={152} shoes="mojari" />
         <Face cx={cx} />
-        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} />
-        <circle cx={cx} cy="14" r="6" fill={HAIR} />
+        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
+        <circle cx={cx} cy="14" r="6" fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
         {/* jewellery */}
         <circle cx={cx} cy="21" r="1.8" fill="var(--gold)" />
         <path d={`M${cx} 21 L${cx} 16`} stroke="var(--gold)" strokeWidth="0.8" />
@@ -191,8 +191,8 @@ function Woman({ cx, look }) {
         ))}
         <Legs cx={cx} color="var(--c3)" from={104} shoes="slippers" wide />
         <Face cx={cx} />
-        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} />
-        <circle cx={cx} cy="14" r="6" fill={HAIR} />
+        <path d={`M${cx - 15} 30 Q${cx - 10} 17 ${cx} 18 Q${cx + 10} 17 ${cx + 15} 30 Q${cx} 24 ${cx - 15} 30 Z`} fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
+        <circle cx={cx} cy="14" r="6" fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
         <SleepMask cx={cx} />
       </g>
     )
@@ -208,8 +208,8 @@ function Woman({ cx, look }) {
       <path d={`M${cx - 28} 146 L${cx + 28} 146`} stroke="var(--c2)" strokeWidth="1" opacity="0.6" />
       <Legs cx={cx} color="transparent" from={150} shoes="heels" />
       <Face cx={cx} />
-      {/* open hair */}
-      <path d={`M${cx - 16} 30 Q${cx} 12 ${cx + 16} 30 L${cx + 19} 62 L${cx + 11} 62 L${cx + 12} 40 Q${cx} 30 ${cx - 12} 40 L${cx - 11} 62 L${cx - 19} 62 Z`} fill={HAIR} />
+      {/* Open hair frames the face; the fringe stays above the eyes at y=32. */}
+      <path d={`M${cx - 16} 30 Q${cx} 4 ${cx + 16} 30 L${cx + 19} 62 L${cx + 13} 62 L${cx + 13} 29 Q${cx} 18 ${cx - 13} 29 L${cx - 13} 62 L${cx - 19} 62 Z`} fill={HAIR} stroke="#c9ad7d" strokeWidth="0.9" strokeLinejoin="round" />
       <path d={`M${cx - 15} 36 l0 6 M${cx + 15} 36 l0 6`} stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
       <path d={`M${cx - 8} 54 Q${cx} 62 ${cx + 8} 54`} fill="none" stroke="var(--gold)" strokeWidth="1.5" />
     </g>
